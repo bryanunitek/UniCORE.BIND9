@@ -1,0 +1,24 @@
+options {
+	query-source address 10.53.0.7;
+	notify-source 10.53.0.7;
+	transfer-source 10.53.0.7;
+	port @PORT@;
+	pid-file "named.pid";
+	listen-on { 10.53.0.7; };
+	listen-on-v6 { none; };
+	recursion no;
+	answer-cookie no;
+	send-cookie yes;
+	nocookie-udp-size 512;
+	dnssec-validation no;
+};
+
+zone "." {
+	type primary;
+	file "root.db";
+};
+
+zone "from-no-cookie-server.example" {
+	type primary;
+	file "from-no-cookie-server.example.db";
+};

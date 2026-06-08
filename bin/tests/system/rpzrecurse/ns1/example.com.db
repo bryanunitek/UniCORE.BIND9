@@ -1,0 +1,7 @@
+$TTL 3600
+@ IN SOA ns.example.com. root.example.com. 1 3600 3600 3600 3600
+@    NS	 ns.example.com.
+
+ns.example.com.     A   10.53.0.1
+@                   A   1.2.3.4
+www                 A   1.2.3.5

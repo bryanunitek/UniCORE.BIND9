@@ -1,0 +1,12 @@
+dnssec-policy "default-kz" {
+	keys {
+		ksk key-directory lifetime unlimited algorithm ECDSAP256SHA256;
+		zsk key-directory lifetime unlimited algorithm ECDSAP256SHA256;
+	};
+};
+
+zone "bad-role.kz.example" {
+	type primary;
+	file "bad-role.kz.example.db";
+	dnssec-policy "default-kz";
+};

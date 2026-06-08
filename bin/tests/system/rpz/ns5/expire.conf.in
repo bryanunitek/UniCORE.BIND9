@@ -1,0 +1,6 @@
+zone "fast-expire." {
+	type primary;
+	file "fast-expire.db";
+	allow-transfer { any; };
+	notify no;
+};

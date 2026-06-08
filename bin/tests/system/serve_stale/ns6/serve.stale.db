@@ -1,0 +1,5 @@
+serve.stale.		IN SOA	ns.serve.stale. matthijs.isc.org. 1 0 0 0 0
+serve.stale.		IN NS	ns.serve.stale.
+ns.serve.stale.		IN A    10.53.0.6
+
+test			IN TXT	"Oops, I did it again"

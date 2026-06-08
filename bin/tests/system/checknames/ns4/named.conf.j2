@@ -1,0 +1,33 @@
+options {
+	query-source address 10.53.0.4;
+	notify-source 10.53.0.4;
+	transfer-source 10.53.0.4;
+	port @PORT@;
+	pid-file "named.pid";
+	listen-on { 10.53.0.4; };
+	listen-on-v6 { none; };
+	allow-transfer { any; };
+	recursion yes;
+	dnssec-validation no;
+	check-names primary ignore;
+	check-names secondary ignore;
+	notify yes;
+};
+
+
+zone "." {
+	type hint;
+	file "root.hints";
+};
+
+zone "primary-ignore.update" {
+	type primary;
+	file "primary-ignore.update.db";
+	allow-update { any; };
+};
+
+zone "master-ignore.update" {
+	type secondary;
+	primaries { 10.53.0.5; };
+	file "secondary-ignore.update.db";
+};

@@ -1,0 +1,11 @@
+$TTL 300
+example.tld.		IN SOA	marka.isc.org. ns.dnshoster.tld. (
+				2010   	; serial
+				600         	; refresh
+				600         	; retry
+				1200    	; expire
+				600       	; minimum
+				)
+
+example.tld.			NS	ns.dnshoster.tld.
+a.example.tld.		2	A 	10.53.0.10

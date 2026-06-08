@@ -1,0 +1,11 @@
+zone example {
+	type primary;
+	file "file";
+	plugin query "@TOP_BUILDDIR@/synthrecord.@DYLIB@" {
+		prefix "dynamic-";
+		allow-synth {
+			10.53.0.0/16;
+		};
+		origin example.;
+	};
+};

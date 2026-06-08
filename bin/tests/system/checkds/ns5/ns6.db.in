@@ -1,0 +1,27 @@
+$TTL 300
+@			IN	SOA  secondary.example. hostmaster.example. (
+				1       ; serial
+				20      ; refresh (20 seconds)
+				20      ; retry (20 seconds)
+				1814400 ; expire (3 weeks)
+				3600    ; minimum (1 hour)
+				)
+
+				NS	ns6
+ns6				A	10.53.0.6
+
+$ORIGIN explicit.dspublish.ns6.
+bad				NS	ns9.bad
+ns9.bad				A	10.53.0.9
+
+$ORIGIN explicit.dsremoved.ns6.
+bad				NS	ns9.bad
+ns9.bad				A	10.53.0.9
+
+$ORIGIN yes.dspublish.ns6.
+bad				NS	ns9.bad
+ns9.bad				A	10.53.0.9
+
+$ORIGIN yes.dsremoved.ns6.
+bad				NS	ns9.bad
+ns9.bad				A	10.53.0.9

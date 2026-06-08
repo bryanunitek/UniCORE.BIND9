@@ -1,0 +1,6 @@
+$TTL 300
+@		SOA	mixed-case-rpz.  hostmaster.ns.mixed-case-rpz. ( 2 3600 1200 604800 60 )
+		NS	ns.tld3.
+
+a6-1.tld2	CNAME	.
+A6-2.TLD2	CNAME	.

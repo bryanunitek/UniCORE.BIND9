@@ -1,0 +1,10 @@
+$TTL 20
+@ 			IN SOA	wpk.isc.org. a.root.servers.nil. (
+				2000042100   	; serial
+				600         	; refresh
+				600         	; retry
+				1200    	; expire
+				2       	; minimum
+				)
+@			NS	ns5
+ns5			A	10.53.0.5

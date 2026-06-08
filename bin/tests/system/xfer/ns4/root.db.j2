@@ -1,0 +1,9 @@
+{% raw -%}
+@ 0 SOA . . 0 0 0 0 0
+@ 0 NS .
+@ 0 A 10.53.0.4
+{% endraw -%}
+
+{% for i in range(10000) -%}
+x@i@ 0 in a 10.53.0.1
+{% endfor %}

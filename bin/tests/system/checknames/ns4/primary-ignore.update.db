@@ -1,0 +1,7 @@
+$TTL 300
+@	SOA ns4 hostmaster.ignore.update. (
+	    1 3600 1200 604800 3600 )
+	NS  ns4
+	NS  ns5
+ns4	A   10.53.0.4
+ns5	A   10.53.0.5

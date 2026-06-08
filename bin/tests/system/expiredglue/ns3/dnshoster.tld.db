@@ -1,0 +1,13 @@
+$TTL 300
+dnshoster.tld.		IN SOA	marka.isc.org. ns.dnshoster.tld. (
+				2010   	; serial
+				600         	; refresh
+				600         	; retry
+				1200    	; expire
+				600       	; minimum
+				)
+
+; The TTL of the delegation's glue child-side is 2 seconds.
+dnshoster.tld.			NS	ns.dnshoster.tld.
+ns.dnshoster.tld.	2	A 	10.53.0.3
+a.dnshoster.tld.	2	A	10.53.0.10

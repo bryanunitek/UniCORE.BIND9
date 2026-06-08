@@ -1,0 +1,11 @@
+dnssec-policy "tagrange-csk" {
+	keys {
+		csk key-directory lifetime unlimited algorithm ECDSAP256SHA256 tag-range 0 32767;
+	};
+};
+
+zone "bad-tagrange.csk.example" {
+	type primary;
+	file "bad-tagrange.csk.example.db";
+	dnssec-policy "tagrange-csk";
+};

@@ -1,0 +1,10 @@
+@	60	SOA	. . 0 0 0 0 0
+
+@	60	NS	ns
+ns	60	A	10.53.0.3
+
+; isctest.asyncserver does no special handling of DNAME records (e.g. by
+; occluding names below them or synthesizing CNAMEs), so the following
+; DNAME record is only returned when it is queried for explicitly.
+
+@	60	DNAME	mutt.example.

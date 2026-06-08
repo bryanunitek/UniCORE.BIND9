@@ -1,0 +1,7 @@
+zone "foo.bar" {
+	plugin query "@TOP_BUILDDIR@/testlib-driver-syncplugin" {
+		rcode servfail;
+	};
+	type primary;
+	file "foo.bar.db";
+};

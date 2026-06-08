@@ -1,0 +1,16 @@
+options {
+	port @PORT@;
+	pid-file "named.pid";
+	listen-on { 10.53.0.2; };
+	listen-on-v6 { none; };
+	recursion no;
+	notify no;
+	dnssec-validation no;
+};
+
+# Should include all files matching pattern.
+include "zone*.conf";
+
+# Shouldn't break standard file pattern.
+include "mars.conf";
+

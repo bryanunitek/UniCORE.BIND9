@@ -1,0 +1,6 @@
+$TTL 1
+;	The TTL of all these records needs to be 1.
+@	1	SOA	ns4.one.tld. hostmaster.ns4.tld. 0 1 1 1 1
+@	1	NS 	ns4.one.tld.
+ns4	1	A	10.53.0.4
+www	1	A	10.53.0.4

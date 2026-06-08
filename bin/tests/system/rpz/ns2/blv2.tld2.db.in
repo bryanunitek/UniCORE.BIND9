@@ -1,0 +1,8 @@
+; primary for secondary RPZ zone
+
+$TTL	3600
+@		SOA	rpz.tld2.  hostmaster.ns.tld2. ( 2 3600 1200 604800 60 )
+		NS	ns2
+		NS	ns3
+ns2		A	10.53.0.2
+ns3		A	10.53.0.3

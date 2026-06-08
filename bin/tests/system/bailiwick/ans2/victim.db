@@ -1,0 +1,6 @@
+$TTL 3600
+@ 			SOA	ns.victim. . 0 0 0 0 3600
+@			NS	ns
+ns			A	10.53.0.2
+prime			TXT	"this record is used for priming the cache of the targeted resolver"
+canary			TXT	"correct answer from the domain under attack"

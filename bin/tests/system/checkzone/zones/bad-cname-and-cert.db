@@ -1,0 +1,9 @@
+$TTL 600
+@		SOA	ns hostmaster 2011012708 3600 1200 604800 1200
+		NS	ns
+ns		A	192.0.2.1
+bad		CERT	65534 65535 254 (
+			MxFcby9k/yvedMfQgKzhH5er0Mu/vILz45I
+			kskceFGgiWCn/GxHhai6VAuHAoNUz4YoU1t
+			VfSCSqQYn6//11U6Nld80jEeC8aTrO+KKmCaY= )
+bad		CNAME	@

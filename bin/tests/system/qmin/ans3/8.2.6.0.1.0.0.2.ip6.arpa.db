@@ -1,0 +1,4 @@
+@		30	SOA	ns3.good. hostmaster.arpa. 2018050100 1 1 1 1
+@		30	NS	ns3.good.
+
+1.1.1.1		60	NS	ns4.good.

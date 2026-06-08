@@ -1,0 +1,10 @@
+$TTL	120
+@		SOA	ns.unsigned.  hostmaster.ns.unsigned. ( 1 3600 1200 604800 60 )
+@		NS	ns
+@		MX	10 mx
+
+ns		A	10.53.0.1
+		AAAA	fd92:7065:b8e:ffff::1
+
+a		A	1.1.1.1
+mx		A	2.2.2.2

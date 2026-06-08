@@ -1,0 +1,6 @@
+$TTL 600
+@		SOA	ns hostmaster 2011012708 3600 1200 604800 1200
+		NS	ns
+ns		A	192.0.2.1
+bad		DOA	0 1 2 "" aHR0cHM6Ly93d3cuaXNjLm9yZy8=
+bad		CNAME	@

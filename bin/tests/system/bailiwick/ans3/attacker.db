@@ -1,0 +1,6 @@
+$TTL 3600
+@ 			SOA	ns.attacker. . 0 0 0 0 3600
+@			NS	ns
+ns			A	10.53.0.3
+only-if-hijacked	TXT	"this record only exists in the hijacked version of the zone"
+canary			TXT	"fake answer from attacker"

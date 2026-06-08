@@ -1,0 +1,13 @@
+$TTL 300
+@              IN SOA  mname1. . (
+                               1       ; serial
+                               600     ; refresh
+                               600     ; retry
+                               1200    ; expire
+                               600     ; minimum
+                               )
+
+@              NS      ns2
+ns2            A       10.53.0.2
+
+*              A       127.0.0.1

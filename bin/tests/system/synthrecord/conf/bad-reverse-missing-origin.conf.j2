@@ -1,0 +1,8 @@
+zone 10.in-addr.arpa {
+	type primary;
+	file "file";
+	plugin query "@TOP_BUILDDIR@/synthrecord.@DYLIB@" {
+		prefix "dynamic-";
+		ttl 60;
+	};
+};

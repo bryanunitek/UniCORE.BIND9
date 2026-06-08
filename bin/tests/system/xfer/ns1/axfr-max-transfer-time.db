@@ -1,0 +1,4 @@
+$TTL	3600
+@	IN	SOA	. . 0 0 0 0 0
+@	IN	NS	.
+$GENERATE 1-5000	host$	TXT	data-$

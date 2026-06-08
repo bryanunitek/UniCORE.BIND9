@@ -1,0 +1,16 @@
+options {
+	query-source address 10.53.0.3;
+	port @PORT@;
+	pid-file "named.pid";
+	listen-on { 10.53.0.3; };
+	listen-on-v6 { fd92:7065:b8e:ffff::3; };
+	recursion yes;
+	dnssec-validation no;
+	server-id "ns3";
+	minimal-any no;
+};
+
+zone "." {
+	type hint;
+	file "../../_common/root.hint";
+};

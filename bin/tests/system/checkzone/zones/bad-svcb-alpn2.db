@@ -1,0 +1,6 @@
+$TTL 600
+@		SOA	ns hostmaster 2011012708 3600 1200 604800 1200
+		NS	ns
+ns		A	192.0.2.1
+; invalid zero length alpn (in midddle) due to missing double escape
+svcb            SVCB    1 . alpn=a\,\,abc

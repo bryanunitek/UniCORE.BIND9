@@ -1,0 +1,35 @@
+// NS9
+
+{% set forward_badkey = forward_badkey | default(False) %}
+
+options {
+	query-source address 10.53.0.9;
+	notify-source 10.53.0.9;
+	transfer-source 10.53.0.9;
+	port @PORT@;
+	pid-file "named.pid";
+	listen-on { 10.53.0.9; };
+	listen-on-v6 { none; };
+	minimal-any no;
+	recursion yes;
+	dnssec-validation yes;
+	forward only;
+{% if forward_badkey %}
+	forwarders { 10.53.0.5; };
+{% else %}
+	forwarders { 10.53.0.4; };
+{% endif %}
+	servfail-ttl 0;
+};
+
+key rndc_key {
+	secret "1234abcd8765";
+	algorithm @DEFAULT_HMAC@;
+};
+
+controls {
+	inet 10.53.0.9 port @CONTROLPORT@ allow { any; } keys { rndc_key; };
+};
+
+include "trusted.conf";
+include "trusted-localkey.conf";

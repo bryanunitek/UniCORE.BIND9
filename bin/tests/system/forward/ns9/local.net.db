@@ -1,0 +1,5 @@
+local.net.		3600	IN	SOA	. . 0 0 0 0 0
+local.net.		3600	IN	NS	localhost.
+ns.local.net.		3600	IN	A	10.53.0.9
+txt.local.net.		3600	IN	TXT	"something in the local auth zone"
+sub.local.net.		3600	IN	NS	ns.spoofed.net.  ; attacker will try to override this

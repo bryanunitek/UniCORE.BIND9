@@ -1,0 +1,14 @@
+dnssec-policy "nsec-only" {
+	keys {
+		ksk key-directory lifetime unlimited algorithm rsasha1;
+		zsk key-directory lifetime unlimited algorithm rsasha1;
+	};
+};
+
+zone "nsec-only.example" {
+	type primary;
+	file "nsec-only.example.db";
+	allow-update { any; };
+	inline-signing no;
+	dnssec-policy nsec-only;
+};

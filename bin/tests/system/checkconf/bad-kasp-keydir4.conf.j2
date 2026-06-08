@@ -1,0 +1,39 @@
+/*
+ * The zone inherits the key-directory from the "view" level. Both views use the
+ * same key-directory, but the zone uses a different DNSSEC policy per view.
+ * This is a configuration error.
+ */
+
+key "keyforview1" {
+	algorithm @DEFAULT_HMAC@;
+	secret "YPfMoAk6h+3iN8MDRQC004iSNHY=";
+};
+
+key "keyforview2" {
+	algorithm @DEFAULT_HMAC@;
+	secret "4xILSZQnuO1UKubXHkYUsvBRPu8=";
+};
+
+view "example1" {
+	match-clients { key "keyforview1"; };
+
+	key-directory "keys";
+
+	zone "example.net" {
+		type primary;
+		dnssec-policy "default";
+		file "example1.db";
+	};
+};
+
+view "example2" {
+	match-clients { key "keyforview2"; };
+
+	key-directory "keys";
+
+	zone "example.net" {
+		type primary;
+		dnssec-policy "insecure";
+		file "example2.db";
+	};
+};

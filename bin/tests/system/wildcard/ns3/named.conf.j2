@@ -1,0 +1,19 @@
+options {
+	query-source address 10.53.0.3;
+	notify-source 10.53.0.3;
+	transfer-source 10.53.0.3;
+	port @PORT@;
+	pid-file "named.pid";
+	listen-on { 10.53.0.3; };
+	listen-on-v6 { none; };
+	recursion yes;
+	dnssec-validation yes;
+	notify yes;
+};
+
+include "../ns1/trusted.conf";
+
+zone "." {
+	type hint;
+	file "../../_common/root.hint";
+};

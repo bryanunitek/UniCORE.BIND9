@@ -1,0 +1,12 @@
+dnssec-policy "alternative-kz" {
+	keys {
+		ksk key-directory lifetime unlimited algorithm RSASHA256;
+		zsk key-directory lifetime unlimited algorithm RSASHA256;
+	};
+};
+
+zone "bad-algorithm.kz.example" {
+	type primary;
+	file "bad-algorithm.kz.example.db";
+	dnssec-policy "alternative-kz";
+};

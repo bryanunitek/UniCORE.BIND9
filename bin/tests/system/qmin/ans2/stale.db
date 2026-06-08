@@ -1,0 +1,4 @@
+@	2	SOA	ns2 hostmaster.stale. 1 2 3 4 5
+@	2	NS	ns2
+ns2	2	A	10.53.0.2
+	2	AAAA	fd92:7065:b8e:ffff::2

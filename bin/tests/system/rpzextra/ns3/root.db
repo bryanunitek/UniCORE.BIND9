@@ -1,0 +1,19 @@
+$TTL 300
+. 			IN SOA	gson.nominum.com. a.root.servers.nil. (
+				2000042100   	; serial
+				600         	; refresh
+				600         	; retry
+				1200    	; expire
+				600       	; minimum
+				)
+.			    NS ns1.allowed
+
+
+allowed.		NS	ns1.allowed.
+ns1.allowed.	A	10.53.0.2
+
+baddomain.		NS	ns1.baddomain.
+ns1.baddomain.	A	10.53.0.2
+
+gooddomain.		NS	ns1.gooddomain.
+ns1.gooddomain.	A	10.53.0.2

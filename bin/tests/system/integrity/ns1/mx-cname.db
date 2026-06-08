@@ -1,0 +1,6 @@
+$TTL	3600
+@	SOA	ns1 hostmaster 0 0 0 0 0
+@	NS	ns1
+@	MX	0 cname
+ns1	A	10.53.0.1
+cname	CNAME	ns1

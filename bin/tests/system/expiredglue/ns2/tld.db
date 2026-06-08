@@ -1,0 +1,17 @@
+$TTL 300
+tld. 			IN SOA	marka.isc.org. ns.tld. (
+				2010   	; serial
+				600         	; refresh
+				600         	; retry
+				1200    	; expire
+				600       	; minimum
+				)
+tld.			NS	ns.tld.
+ns.tld. 		A 	10.53.0.2
+
+example.tld.		NS	ns.dnshoster.tld.
+missing.tld.		NS	ns.missing.tld.
+dnshoster.tld.		NS	ns.dnshoster.tld.
+
+; Delegation's glue has a TTL of 300 on parent-side
+ns.dnshoster.tld.	A	10.53.0.3

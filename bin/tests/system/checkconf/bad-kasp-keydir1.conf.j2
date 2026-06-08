@@ -1,0 +1,37 @@
+/*
+ * The same zone in different views is using different DNSSEC policies, so it
+ * may not have the same key-directory.
+ */
+
+
+key "keyforview1" {
+	algorithm @DEFAULT_HMAC@;
+	secret "YPfMoAk6h+3iN8MDRQC004iSNHY=";
+};
+
+key "keyforview2" {
+	algorithm @DEFAULT_HMAC@;
+	secret "4xILSZQnuO1UKubXHkYUsvBRPu8=";
+};
+
+view "example1" {
+	match-clients { key "keyforview1"; };
+
+	zone "example.net" {
+		type primary;
+		dnssec-policy "default";
+		key-directory ".";
+		file "example1.db";
+	};
+};
+
+view "example2" {
+	match-clients { key "keyforview2"; };
+
+	zone "example.net" {
+		type primary;
+		dnssec-policy "insecure";
+		key-directory ".";
+		file "example2.db";
+	};
+};

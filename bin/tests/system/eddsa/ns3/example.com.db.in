@@ -1,0 +1,11 @@
+$TTL 3600
+@			IN SOA	fdupont.isc.org. ns.example.com. (
+				2012040600	; serial
+				600		; refresh
+				600		; retry
+				1200		; expire
+				3600		; minimum
+				)
+			MX	10 mail.example.com.
+			NS	ns.example.com.
+ns.example.com.		A	10.53.0.3

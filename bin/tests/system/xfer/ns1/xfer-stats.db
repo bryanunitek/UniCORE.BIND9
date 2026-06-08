@@ -1,0 +1,4 @@
+$TTL 3600
+@				SOA	. . 0 0 0 0 0
+@				NS	.
+$GENERATE 1-10000	$	TXT	$

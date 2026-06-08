@@ -1,0 +1,4 @@
+local.tld.		3600	IN	SOA	. . 0 0 0 0 0
+local.tld.		3600	IN	NS	localhost.
+sub.local.tld.		3600	IN	NS	ns.sub.local.tld.
+ns.sub.local.tld.	3600	IN	A	10.53.0.8

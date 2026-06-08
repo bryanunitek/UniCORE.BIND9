@@ -1,0 +1,9 @@
+; RPZ rewrite responses from this zone
+
+$TTL	120
+@		SOA	tld2.  hostmaster.ns.tld2. ( 1 3600 1200 604800 60 )
+		NS	ns.sub1.tld2.
+
+a3-1		A	10.53.99.99
+
+a4-1		A	10.53.99.99

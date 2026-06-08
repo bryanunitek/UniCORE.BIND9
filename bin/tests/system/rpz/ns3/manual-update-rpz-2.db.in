@@ -1,0 +1,11 @@
+; RPZ test
+;   This basic file is copied to several zone files before being used.
+;   Its contents are also changed with nsupdate
+
+
+$TTL 300
+@				SOA	bl-reload.  hostmaster.ns.bl-reload. ( 2 3600 1200 604800 60 )
+				NS	ns.tld3.
+
+walled.tld2.bl-reload.	 300	A	10.0.0.2
+

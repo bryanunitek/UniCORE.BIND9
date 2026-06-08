@@ -1,0 +1,47 @@
+include "../../_common/rndc.key";
+
+controls {
+	inet 10.53.0.3 port @CONTROLPORT@ allow { any; } keys { rndc_key; };
+};
+
+options {
+	query-source address 10.53.0.3;
+	notify-source 10.53.0.3;
+	transfer-source 10.53.0.3;
+	port @PORT@;
+	allow-new-zones yes;
+	pid-file "named.pid";
+	provide-ixfr no;
+	listen-on { 10.53.0.3; };
+	listen-on-v6 { fd92:7065:b8e:ffff::3; };
+	allow-transfer { any; };
+	notify no;
+	notify-delay 0;
+	recursion no;
+	dnssec-validation no;
+};
+
+zone "catalog2.example" {
+	type primary;
+	file "catalog2.example.db";
+	allow-transfer { any; };
+	allow-update { any; };
+	also-notify { 10.53.0.2; };
+	notify explicit;
+};
+
+zone "dom5.example" {
+	type primary;
+	file "dom5.example.db";
+	allow-transfer { any; };
+	allow-update { any; };
+	notify explicit;
+};
+
+zone "dom6.example" {
+	type primary;
+	file "dom6.example.db";
+	allow-transfer { any; };
+	allow-update { any; };
+	notify explicit;
+};

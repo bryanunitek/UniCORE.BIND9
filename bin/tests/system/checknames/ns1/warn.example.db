@@ -1,0 +1,6 @@
+$TTL 300
+@	SOA ns1.warn.example. hostmaster.warn.example. (
+	    1 3600 1200 604800 3600 )
+	NS  ns1.warn.example.
+ns1.warn.example. A 10.53.0.1
+xx_xx.warn.example. A 10.53.0.1

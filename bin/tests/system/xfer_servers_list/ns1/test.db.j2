@@ -1,0 +1,12 @@
+{% set serial = serial | default(1) %}
+
+$TTL 60
+test. IN SOA	ns.test. op.test. (
+				@serial@ ; serial
+				100      ; refresh
+				100      ; retry
+				300      ; expire
+				60       ; minimum
+				)
+test.		NS	ns.test.
+ns.test.	A	10.53.0.1

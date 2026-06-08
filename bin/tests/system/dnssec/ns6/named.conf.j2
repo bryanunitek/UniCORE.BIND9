@@ -1,0 +1,39 @@
+// NS6
+
+options {
+	query-source address 10.53.0.6;
+	notify-source 10.53.0.6;
+	transfer-source 10.53.0.6;
+	port @PORT@;
+	pid-file "named.pid";
+	listen-on { 10.53.0.6; };
+	listen-on-v6 { none; };
+	minimal-any no;
+	recursion yes;
+	notify yes;
+	disable-algorithms . { @ALTERNATIVE_ALGORITHM@; };
+	dnssec-validation yes;
+};
+
+zone "." {
+	type hint;
+	file "../../_common/root.hint";
+};
+
+zone "optout-tld" {
+	type primary;
+	file "optout-tld.db.signed";
+};
+
+zone "nosoa.secure.example" {
+	type primary;
+	file "nosoa.secure.example.db";
+};
+
+zone "split-rrsig" {
+	type primary;
+	file "split-rrsig.db.signed";
+	allow-update { any; };
+};
+
+include "trusted.conf";

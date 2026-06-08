@@ -1,0 +1,6 @@
+$TTL 3600
+@ IN SOA root.example. example. 1 3600 3600 3600 3600
+@			NS	ns.example.
+ns.example.             A       10.53.0.1
+test2.example.net.	A	8.7.6.5
+www.test2.example.net.	A	4.3.2.1

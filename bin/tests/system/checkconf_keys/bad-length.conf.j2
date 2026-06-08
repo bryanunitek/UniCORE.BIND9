@@ -1,0 +1,11 @@
+dnssec-policy "alternative-csk" {
+	keys {
+		csk key-directory lifetime unlimited algorithm RSASHA256 2048;
+	};
+};
+
+zone "bad-length.csk.example" {
+	type primary;
+	file "bad-length.csk.example.db";
+	dnssec-policy "alternative-csk";
+};

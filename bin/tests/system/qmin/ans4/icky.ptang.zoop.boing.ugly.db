@@ -1,0 +1,4 @@
+@			1	SOA	ns4.ugly. hostmaster.arpa. 2018050100 1 1 1 1
+@			1	NS	a.bit.longer.ns.name.ugly.
+icky.icky		1	A	192.0.2.1
+more.icky.icky		1	A	192.0.2.2

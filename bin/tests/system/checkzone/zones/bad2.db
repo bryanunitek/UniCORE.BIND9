@@ -1,0 +1,8 @@
+$TTL 600
+@		SOA	ns hostmaster 2011012708 3600 1200 604800 1200
+		NS	ns
+ns		A	192.0.2.1
+
+; The following GENERATE directive contains two dashes in the range
+; which is a syntax error.
+$GENERATE 9--10 host$ 3600 A 192.0.2.$

@@ -1,0 +1,24 @@
+options {
+	query-source address 10.53.0.2;
+	notify-source 10.53.0.2;
+	transfer-source 10.53.0.2;
+	port @PORT@;
+	pid-file "named.pid";
+	listen-on { 10.53.0.2; };
+	listen-on-v6 { none; };
+	recursion yes;
+	notify no;
+	dnssec-validation no;
+};
+
+zone example.net {
+	type secondary;
+	primaries { 10.53.0.1; };
+	file "example.net.bk";
+};
+
+zone example.com {
+	type secondary;
+	primaries { 10.53.0.1; };
+	file "example.com.bk";
+};

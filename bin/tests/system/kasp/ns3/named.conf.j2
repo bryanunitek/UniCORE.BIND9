@@ -1,0 +1,9 @@
+include "policies/autosign.conf";
+include "policies/kasp-fips.conf";
+include "named-common.conf";
+include "named-fips.conf";
+
+{% if RSASHA1_SUPPORTED == "1" %}
+include "policies/kasp-rsasha1.conf";
+include "named-rsasha1.conf";
+{% endif %}

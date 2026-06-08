@@ -1,0 +1,22 @@
+options {
+	listen-on port @PORT@ { 10.53.0.2; };
+	transfer-source 10.53.0.2;
+	pid-file "named.pid";
+	recursion no;
+};
+
+zone "foo.fr" {
+	min-refresh-time 1;
+	min-retry-time 1;
+	type secondary;
+	primaries { 10.53.0.1 port @PORT@; };
+};
+
+key rndc_key {
+	secret "1234abcd8765";
+	algorithm @DEFAULT_HMAC@;
+};
+
+controls {
+	inet 10.53.0.2 port @CONTROLPORT@ allow { any; } keys { rndc_key; };
+};

@@ -1,0 +1,26 @@
+options {
+	port @PORT@;
+	pid-file "named.pid";
+	listen-on { 10.53.0.4; };
+	listen-on-v6 { none; };
+	recursion yes;
+	dnssec-validation no;
+};
+
+
+view normal {
+	match-clients { any; };
+
+	zone example {
+		type primary;
+		file "example.db";
+		allow-update { any; };
+	};
+};
+
+view "view with a space" {
+	match-clients { none; };
+	zone example {
+		in-view normal;
+	};
+};

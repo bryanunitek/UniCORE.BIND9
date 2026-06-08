@@ -1,0 +1,10 @@
+; RPZ test
+;   This basic file is copied to several zone files before being used.
+;   Its contents are also changed with nsupdate
+
+
+$TTL 300
+@					SOA	evil-cname.  hostmaster.ns.evil-cname. ( 1 3600 1200 604800 60 )
+					NS	ns.tld3.
+
+evil.tld2				CNAME	a12.tld2.

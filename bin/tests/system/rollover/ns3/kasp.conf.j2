@@ -1,0 +1,8 @@
+dnssec-policy "manual-rollover" {
+	dnskey-ttl 3600;
+
+	keys {
+		ksk key-directory lifetime unlimited algorithm @DEFAULT_ALGORITHM@;
+		zsk key-directory lifetime unlimited algorithm @DEFAULT_ALGORITHM@;
+	};
+};

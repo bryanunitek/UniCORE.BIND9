@@ -1,0 +1,5 @@
+.			300	SOA	. . 0 0 0 0 0
+.			300	NS	a.root-servers.nil.
+a.root-servers.nil.	300	A	10.53.0.1
+example.		300	A	10.53.0.10
+exampletwo.		300	A	10.53.0.11

@@ -1,0 +1,183 @@
+$TTL 300	; 5 minutes
+@			IN SOA	mname1. . (
+				2000042407 ; serial
+				20         ; refresh (20 seconds)
+				20         ; retry (20 seconds)
+				1814400    ; expire (3 weeks)
+				3600       ; minimum (1 hour)
+				)
+			NS	ns2
+			NS	ns3
+ns2			A	10.53.0.2
+ns2			AAAA	fd92:7065:b8e:ffff::2
+ns3			A	10.53.0.3
+ns3			AAAA	fd92:7065:b8e:ffff::3
+
+a			A	10.0.0.1
+a			AAAA	fd92:7065:b8e:ffff::1
+b			A	10.0.0.2
+b			AAAA	fd92:7065:b8e:ffff::2
+c			A	10.0.0.3
+c			AAAA	fd92:7065:b8e:ffff::3
+d			A	10.0.0.0
+d			AAAA	fd92:7065:b8e:ffff::
+
+silent			A	10.0.0.1
+close			A	10.0.0.1
+
+xn--caf-dma		A	10.1.2.3
+
+foo			TXT	"testing"
+foo			A	10.0.1.0
+foo			SSHFP	2 1 123456789abcdef67890123456789abcdef67890
+
+; TTL of 3 weeks
+weeks		1814400	A	10.53.0.2
+; TTL of 3 days
+days		259200	A	10.53.0.2
+; TTL of 3 hours
+hours		10800	A	10.53.0.2
+;TTL of 45 minutes
+minutes		2700	A	10.53.0.2
+;TTL of 45 seconds
+seconds		45	A	10.53.0.2
+; domain names with yaml special values and data with ': '
+yaml			TXT	"a: b"
+'.yaml			TXT	"a: b"
+[.yaml			TXT	"a: b"
+{.yaml			TXT	"a: b"
+&.yaml			TXT	"a: b"
+#.yaml			TXT	"a: b"
+all.yaml		TXT	( \000 \001 \002 \003 \004 \005 \006 \007
+				  \008 \009 \010 \011 \012 \013 \014 \015
+				  \016 \017 \018 \019 \020 \021 \022 \023
+				  \024 \025 \026 \027 \028 \029 \030 \031
+				  \032 \033 \034 \035 \036 \037 \038 \039
+				  \040 \041 \042 \043 \044 \045 \046 \047
+				  \048 \049 \050 \051 \052 \053 \054 \055
+				  \056 \057 \058 \059 \060 \061 \062 \063
+				  \064 \065 \066 \067 \068 \069 \070 \071
+				  \072 \073 \074 \075 \076 \077 \078 \079
+				  \080 \081 \082 \083 \084 \085 \086 \087
+				  \088 \089 \090 \091 \092 \093 \094 \095
+				  \096 \097 \098 \099 \100 \101 \102 \103
+				  \104 \105 \106 \107 \108 \109 \110 \111
+				  \112 \113 \114 \115 \116 \117 \118 \119
+				  \120 \121 \122 \123 \124 \125 \126 \127
+				  \128 \129 \130 \131 \132 \133 \134 \135
+				  \136 \137 \138 \139 \140 \141 \142 \143
+				  \144 \145 \146 \147 \148 \149 \150 \151
+				  \152 \153 \154 \155 \156 \157 \158 \159
+				  \160 \161 \162 \163 \164 \165 \166 \167
+				  \168 \169 \170 \171 \172 \173 \174 \175
+				  \176 \177 \178 \179 \180 \181 \182 \183
+				  \184 \185 \186 \187 \188 \189 \190 \191
+				  \192 \193 \194 \195 \196 \197 \198 \199
+				  \200 \201 \202 \203 \204 \205 \206 \207
+				  \208 \209 \210 \211 \212 \213 \214 \215
+				  \216 \217 \218 \219 \220 \221 \222 \223
+				  \224 \225 \226 \227 \228 \229 \230 \231
+				  \232 \233 \234 \235 \236 \237 \238 \239
+				  \240 \241 \242 \243 \244 \245 \246 \247
+				  \248 \249 \250 \251 \252 \253 \254 \255 )
+
+truncated		TXT	12-1-7-0172-50712-07070 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-07071 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-07072 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-07073 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-07074 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-07075 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-07076 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-07077 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-07078 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-07079 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070710 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070711 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070712 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070713 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070714 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070715 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070716 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070717 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070718 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070719 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070720 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070721 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070722 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070723 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070724 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070725 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070726 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070727 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070728 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070729 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070730 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070731 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070732 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070733 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070734 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070735 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070736 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070737 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070738 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070739 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070740 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070741 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070742 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070743 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070744 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070745 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070746 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070747 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070748 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070749 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070750 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070751 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070752 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070753 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070754 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070755 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070756 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070757 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070758 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070759 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070760 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070761 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070762 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070763 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070764 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070765 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070766 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070767 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070768 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070769 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070770 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070771 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070772 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070773 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070774 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070775 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070776 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070777 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070778 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070779 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070780 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070781 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070782 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070783 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070784 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070785 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070786 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070787 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070788 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070789 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070790 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070791 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070792 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070793 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070794 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070795 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070796 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070797 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070798 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh
+truncated		TXT	12-1-7-0172-50712-070799 2192-0aslhasjhfas;f;slf;lkh;alfhds;alshdf;lhasd;lhsadf;hf ash;adshpofhq[pewjafjdsd'asd;j'as;adsf';hfds'hr[hphf[hwhqwe[hf[jadsf'fdsa'kafds';hads'dh

@@ -1,0 +1,4 @@
+@	1	SOA	ns hostmaster.a.b.stale. 1 2 3 4 5
+@	1	NS	ns
+ns	1	A	10.53.0.4
+@	1	TXT	"hooray"

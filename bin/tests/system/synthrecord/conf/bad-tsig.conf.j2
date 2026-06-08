@@ -1,0 +1,18 @@
+key "test-tsig." {
+    algorithm hmac-sha256;
+    secret "DAopyf1mhCbFVZw7pgmNPBoLUq8wEUT7UuPoLENP2HY=";
+};
+
+zone example {
+	type primary;
+	file "file";
+	plugin query "@TOP_BUILDDIR@/synthrecord.@DYLIB@" {
+		prefix "dynamic-";
+		allow-synth {
+			192.168.1.5;
+			key test-tsig.;
+		};
+		origin example.;
+		ttl 50;
+	};
+};

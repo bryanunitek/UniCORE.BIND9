@@ -1,0 +1,17 @@
+$TTL 300	; 5 minutes
+@			IN SOA	mname1. . (
+				2021051901 ; serial
+				20         ; refresh (20 seconds)
+				20         ; retry (20 seconds)
+				1814400    ; expire (3 weeks)
+				3600       ; minimum (1 hour)
+				)
+			NS	localhost.
+
+delegation		NS	localhost.
+
+; CNAME pointing into a child zone
+cname			CNAME	delegation
+
+; wildcard CNAME pointing at a CNAME pointing into a child zone
+*			CNAME	cname

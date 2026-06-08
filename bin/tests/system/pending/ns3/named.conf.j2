@@ -1,0 +1,31 @@
+// NS2
+
+include "trusted.conf";
+
+options {
+	query-source address 10.53.0.3;
+	notify-source 10.53.0.3;
+	transfer-source 10.53.0.3;
+	port @PORT@;
+	pid-file "named.pid";
+	listen-on { 10.53.0.3; };
+	listen-on-v6 { none; };
+	recursion no;
+	notify no;
+	dnssec-validation yes;
+};
+
+zone "." {
+	type hint;
+	file "../../_common/root.hint";
+};
+
+zone "mail.example" {
+	type primary;
+	file "mail.example.db";
+};
+
+zone "hostile" {
+	type primary;
+	file "hostile.db";
+};

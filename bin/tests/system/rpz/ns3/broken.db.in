@@ -1,0 +1,7 @@
+; RPZ test
+;   This basic file is copied to several zone files before being used.
+;   Its contents are also changed with nsupdate
+
+
+; broken zone
+foobar

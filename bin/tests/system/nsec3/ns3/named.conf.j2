@@ -1,0 +1,9 @@
+// NS3
+
+include "named-common.conf";
+include "named-fips.conf";
+include "named-retransfer.conf";
+
+{% if RSASHA1_SUPPORTED == "1" %}
+include "named-rsasha1.conf";
+{% endif %}

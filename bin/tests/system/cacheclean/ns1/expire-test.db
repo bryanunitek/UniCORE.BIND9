@@ -1,0 +1,10 @@
+$TTL 3600
+@			IN SOA	hostmaster.ns ns (
+				2011072900
+				600
+				600
+				1200
+				3600
+				)
+			NS	ns
+ns			IN	A	10.53.0.1

@@ -1,0 +1,21 @@
+options {
+	port @PORT@;
+	pid-file "named.pid";
+	listen-on { 10.53.0.2; };
+	listen-on-v6 { none; };
+	recursion no;
+	allow-query { none; };
+	dnssec-validation no;
+};
+
+include "controls.conf";
+
+zone "." {
+	type hint;
+	file "../../_common/root.hint";
+};
+
+zone "normal.example" {
+	type primary;
+	file "generic.db";
+};

@@ -1,0 +1,41 @@
+options {
+	query-source address 10.53.0.10;
+	notify-source 10.53.0.10;
+	transfer-source 10.53.0.10;
+	port @PORT@;
+	pid-file "named.pid";
+	listen-on { 10.53.0.10; };
+	listen-on-v6 { none; };
+	minimal-responses no;
+	dnssec-validation no;
+};
+
+zone "net." {
+	type master;
+	file "fakenet.db";
+};
+
+zone "spoofed.net." {
+	type master;
+	file "spoofednet.db";
+};
+
+zone "sub.local.net." {
+	type master;
+	file "fakesublocalnet.db";
+};
+
+zone "net2" {
+	type master;
+	file "fakenet2.db";
+};
+
+zone "net.example.lll" {
+	type master;
+	file "net.example.lll";
+};
+
+zone "sub.local.tld." {
+	type master;
+	file "fakesublocaltld.db";
+};

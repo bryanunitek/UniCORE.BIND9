@@ -1,0 +1,10 @@
+$TTL 300
+@	IN SOA 	ns2 hostmaster 1 300 120 3600 86400
+@	NS	ns2
+	NS	ns3
+	NS	ns4
+ns2	A	10.53.0.2
+ns3	A	10.53.0.3
+ns4	A	10.53.0.4
+
+$GENERATE 0-999 name${0,6} A 10.0.0.1

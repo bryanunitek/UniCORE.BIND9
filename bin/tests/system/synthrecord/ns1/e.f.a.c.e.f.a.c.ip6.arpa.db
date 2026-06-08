@@ -1,0 +1,4 @@
+$TTL	120
+@		SOA	ns.example.  hostmaster.ns.example. ( 1 3600 1200 604800 60 )
+@		NS	ns.example.
+e.f.a.c.f.e.e.b.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.e.f.a.c.e.f.a.c.ip6.arpa. PTR 	aaaa.example.

@@ -1,0 +1,12 @@
+$TTL 300	; 5 minutes
+@		IN SOA	mname1. . (
+			2012050601 ; serial
+			3600	   ; refresh
+			600	   ; retry
+			604800	   ; expire
+			3600	   ; minimum
+			)
+		NS	ns2
+ns2		A	10.53.0.2
+
+a		A	10.0.0.1

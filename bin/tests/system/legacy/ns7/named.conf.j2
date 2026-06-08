@@ -1,0 +1,16 @@
+options {
+	query-source address 10.53.0.7;
+	notify-source 10.53.0.7;
+	transfer-source 10.53.0.7;
+	port @PORT@;
+	pid-file "named.pid";
+	listen-on { 10.53.0.7; };
+	listen-on-v6 { none; };
+	recursion no;
+	dnssec-validation no;
+};
+
+zone "edns512-notcp" {
+	type primary;
+	file "edns512-notcp.db.signed";
+};

@@ -1,0 +1,12 @@
+$TTL	120
+@		SOA	ns.utld hostmaster.ns.utld ( 1 3600 1200 604800 60 )
+@		NS	ns.utld
+ns.utld		A	10.53.0.1
+ns.utld		AAAA	fd92:7065:b8e:ffff::1
+;
+
+example		NS	ns.example
+ns.example	A	10.53.0.1
+ns.example	AAAA	fd92:7065:b8e:ffff::1
+
+10.53.0.1	PTR	ns.example

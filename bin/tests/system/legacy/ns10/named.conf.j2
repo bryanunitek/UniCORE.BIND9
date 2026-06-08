@@ -1,0 +1,16 @@
+options {
+	query-source address 10.53.0.10;
+	notify-source 10.53.0.10;
+	transfer-source 10.53.0.10;
+	port @PORT@;
+	pid-file "named.pid";
+	listen-on { 10.53.0.10; };
+	listen-on-v6 { none; };
+	recursion no;
+	dnssec-validation no;
+};
+
+zone "ednsrefused" {
+	type primary;
+	file "ednsrefused.db";
+};

@@ -1,0 +1,6 @@
+{% set max_stale_ttl = 20 %}
+{% set stale_answer_ttl = 3 %}
+{% set stale_refresh_time = 0 %}
+{% set stale_test_zone = True %}
+
+{% include "ns1/named.conf.j2" %}

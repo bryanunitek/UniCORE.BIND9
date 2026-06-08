@@ -1,0 +1,9 @@
+$TTL 300
+@ 			IN SOA	marka.isc.org. ns.server. (
+				2010   	; serial
+				600         	; refresh
+				600         	; retry
+				1200    	; expire
+				600       	; minimum
+				)
+@			NS	cname.tld.

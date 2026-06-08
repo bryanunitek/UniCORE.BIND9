@@ -1,0 +1,12 @@
+$TTL 20
+tld.                   IN SOA  marka.isc.org. ns.tld. (
+                               2000042100      ; serial
+                               600             ; refresh
+                               600             ; retry
+                               1200            ; expire
+                               2               ; minimum
+                               )
+tld.		       NS      ns.tld.
+ns.tld.		       A       10.53.0.1
+sub.tld.	       NS      ns.sub.tld.
+ns.sub.tld.	       A       10.53.0.1

@@ -1,0 +1,44 @@
+controls { /* empty */ };
+
+options {
+	query-source address 10.53.0.2;
+	notify-source 10.53.0.2;
+	transfer-source 10.53.0.2;
+	port @PORT@;
+	pid-file "named.pid";
+	listen-on { 10.53.0.2; };
+	listen-on-v6 { none; };
+	recursion no;
+	dnssec-validation no;
+	notify yes;
+};
+
+zone "zone000000.example" {
+	type primary;
+	allow-update { any; };
+	file "zone000000.example.db";
+};
+
+zone "zone000001.example" {
+	type primary;
+	allow-update { any; };
+	file "zone000001.example.db";
+};
+
+zone "zone000002.example" {
+	type primary;
+	allow-update { any; };
+	file "zone000002.example.db";
+};
+
+zone "zone000003.example" {
+	type primary;
+	allow-update { any; };
+	file "zone000003.example.db";
+};
+
+zone "zone000004.example" {
+	type primary;
+	allow-update { any; };
+	file "zone000004.example.db";
+};

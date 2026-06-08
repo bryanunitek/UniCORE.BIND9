@@ -1,0 +1,14 @@
+$TTL	120
+@		SOA	ns.utld hostmaster.ns.utld ( 1 3600 1200 604800 60 )
+@		NS	ns.utld
+ns.utld		A	10.53.0.1
+ns.utld		AAAA	fd92:7065:b8e:ffff::1
+;
+
+signed		NS	ns.signed
+ns.signed	A	10.53.0.1
+ns.signed	AAAA	fd92:7065:b8e:ffff::1
+
+unsigned	NS	ns.unsigned
+ns.unsigned	A	10.53.0.1
+ns.unsigned	AAAA	fd92:7065:b8e:ffff::1

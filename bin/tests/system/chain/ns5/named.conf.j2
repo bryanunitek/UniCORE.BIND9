@@ -1,0 +1,34 @@
+// NS2
+
+options {
+	query-source address 10.53.0.5;
+	notify-source 10.53.0.5;
+	transfer-source 10.53.0.5;
+	port @PORT@;
+	pid-file "named.pid";
+	listen-on { 10.53.0.5; };
+	listen-on-v6 { none; };
+	recursion no;
+	dnssec-validation no;
+	notify yes;
+};
+
+zone "." {
+	type hint;
+	file "../../_common/root.hint";
+};
+
+zone "sub5.example" {
+	type primary;
+	file "sub.db";
+};
+
+zone "signed-sub5.example" {
+	type primary;
+	file "sub.db";
+};
+
+zone "mutt.example" {
+	type primary;
+	file "mutt.db";
+};

@@ -1,0 +1,9 @@
+; rate limit response from this zone
+
+$TTL	120
+@		SOA	tld3.  hostmaster.ns.tld3. ( 1 3600 1200 604800 60 )
+		NS	ns
+		NS	.
+ns		A	10.53.0.3
+
+*.a3		A	192.0.3.3
