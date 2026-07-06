@@ -4334,7 +4334,9 @@ configure_view(dns_view_t *view, dns_viewlist_t *viewlist, cfg_obj_t *config,
 	} else {
 		dns_delegdb_create(&view->deleg);
 	}
-	dns_delegdb_setsize(view->deleg, cache_size_slice);
+	dns_delegdb_setconfig(
+		view->deleg,
+		&(dns_delegdb_config_t){ .dbsize = cache_size_slice });
 
 	/*
 	 * The previous view isn't needed anymore.
@@ -8786,7 +8788,7 @@ cleanup_portsets:
 cleanup_tls:
 	/*
 	 * Detach the TLS client context (whether the one created at the
-	 * begining of this function, or the previous running one)
+	 * beginning of this function, or the previous running one)
 	 */
 	isc_tlsctx_cache_detach(&tlsctx_client_cache);
 
@@ -11261,9 +11263,12 @@ cleanup:
 
 static void
 flush_delegdb(dns_view_t *view) {
+	dns_delegdb_config_t config = dns_delegdb_getconfig(view->deleg);
+
 	dns_delegdb_shutdown(view->deleg);
 	dns_delegdb_detach(&view->deleg);
 	dns_delegdb_create(&view->deleg);
+	dns_delegdb_setconfig(view->deleg, &config);
 }
 
 isc_result_t
@@ -11802,7 +11807,7 @@ named_server_sync(named_server_t *server, isc_lex_t *lex, isc_buffer_t *text) {
 		isc_log_write(NAMED_LOGCATEGORY_GENERAL, NAMED_LOGMODULE_SERVER,
 			      ISC_LOG_INFO, "dumping all zones%s: %s",
 			      cleanup ? ", removing journal files" : "",
-			      isc_result_totext(result));
+			      isc_result_totext(tresult));
 		return tresult;
 	}
 

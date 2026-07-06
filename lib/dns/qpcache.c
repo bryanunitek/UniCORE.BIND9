@@ -126,7 +126,7 @@ struct qpcnode {
 	 * and the database have both released the object) the object
 	 * is freed.
 	 *
-	 * Whenever 'erefs' is incremented from zero, we also aquire a
+	 * Whenever 'erefs' is incremented from zero, we also acquire a
 	 * node use reference (see 'qpcache->references' below), and
 	 * release it when 'erefs' goes back to zero. This prevents the
 	 * database from being shut down until every caller has released
@@ -1578,11 +1578,9 @@ qpcache_find(dns_db_t *db, const dns_name_t *name, dns_dbversion_t *version,
 
 	/*
 	 * Certain DNSSEC types are not subject to CNAME matching
-	 * (RFC4035, section 2.5 and RFC3007).
+	 * (RFC4035, section 2.5).
 	 */
-	if (type == dns_rdatatype_key || type == dns_rdatatype_nsec ||
-	    type == dns_rdatatype_rrsig)
-	{
+	if (type == dns_rdatatype_nsec || type == dns_rdatatype_rrsig) {
 		cname_ok = false;
 	}
 
