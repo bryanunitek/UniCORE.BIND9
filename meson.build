@@ -12,7 +12,7 @@
 project(
     'bind',
     ['c'],
-    version: '9.21.22',
+    version: '9.21.23',
     meson_version: '>=1.3.0',
     license: 'MPL-2.0',
     default_options: {
@@ -330,6 +330,7 @@ if not cc.compiles(constexpr_test, name: 'usage of constexpr')
 endif
 
 if developer_mode
+    config.set('DEVELOPER_MODE', 1)
     config.set('ISC_LIST_CHECKINIT', 1)
     config.set('ISC_MEM_TRACKLINES', 1)
     config.set('ISC_MUTEX_ERROR_CHECK', 1)

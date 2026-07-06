@@ -70,6 +70,8 @@ struct dns_delegdb {
 	 * (After decrementing `owners`.)
 	 */
 	isc_refcount_t owners;
+
+	dns_delegdb_config_t config;
 };
 
 static void
@@ -217,7 +219,8 @@ dns_delegdb_create(dns_delegdb_t **delegdbp) {
 				    .mctx = mctx,
 				    .references = ISC_REFCOUNT_INITIALIZER(1),
 				    .nloops = isc_loopmgr_nloops(),
-				    .owners = ISC_REFCOUNT_INITIALIZER(1) };
+				    .owners = ISC_REFCOUNT_INITIALIZER(1),
+				    .config = {} };
 
 	dns_qpmulti_create(mctx, &qpmethods, &delegdb->nodes, &delegdb->nodes);
 
@@ -420,6 +423,21 @@ dns_delegset_allocdeleg(dns_delegset_t *delegset, dns_deleg_type_t type,
 
 	ISC_LIST_APPEND(delegset->delegs, deleg, link);
 	*delegp = deleg;
+}
+
+void
+dns_delegset_freedeleg(dns_delegset_t *delegset, dns_deleg_t **delegp) {
+	REQUIRE(DNS_DELEGSET_VALID(delegset));
+	REQUIRE(delegp != NULL && *delegp != NULL);
+	REQUIRE(ISC_LIST_EMPTY((*delegp)->addresses));
+	REQUIRE(ISC_LIST_EMPTY((*delegp)->names));
+
+	dns_deleg_t *deleg = *delegp;
+	*delegp = NULL;
+
+	ISC_LIST_UNLINK(delegset->delegs, deleg, link);
+
+	isc_mem_put(delegset->mctx, deleg, sizeof(*deleg));
 }
 
 void
@@ -630,8 +648,8 @@ dns_delegset_insert(dns_delegdb_t *delegdb, const dns_name_t *zonecut,
 	if (result == ISC_R_SUCCESS) {
 		/*
 		 * A node at the same zonecut exists, and it is expired. Ignore
-		 * the return value, in case the overriden node would be removed
-		 * in meantime by someone else.
+		 * the return value, in case the overridden node would be
+		 * removed in meantime by someone else.
 		 */
 		(void)dns_qp_deletename(qp, zonecut, DNS_DBNAMESPACE_NORMAL,
 					NULL, NULL);
@@ -1018,8 +1036,8 @@ dns_delegdb_shutdown(dns_delegdb_t *delegdb) {
 	}
 }
 
-void
-dns_delegdb_setsize(dns_delegdb_t *delegdb, size_t size) {
+static void
+delegdb_setsize(dns_delegdb_t *delegdb, size_t size) {
 	size_t lowater;
 	size_t hiwater;
 
@@ -1042,4 +1060,21 @@ dns_delegdb_setsize(dns_delegdb_t *delegdb, size_t size) {
 	} else {
 		isc_mem_setwater(delegdb->mctx, hiwater, lowater);
 	}
+}
+
+dns_delegdb_config_t
+dns_delegdb_getconfig(dns_delegdb_t *delegdb) {
+	REQUIRE(VALID_DELEGDB(delegdb));
+	return delegdb->config;
+}
+
+void
+dns_delegdb_setconfig(dns_delegdb_t *delegdb,
+		      const dns_delegdb_config_t *config) {
+	REQUIRE(isc_loop_get(isc_tid()) == isc_loop_main());
+	REQUIRE(VALID_DELEGDB(delegdb));
+
+	delegdb->config = *config;
+
+	delegdb_setsize(delegdb, delegdb->config.dbsize);
 }
