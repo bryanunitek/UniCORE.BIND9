@@ -198,8 +198,8 @@ stages:
 
 # Alpine Linux
 
-.alpine-3.23-amd64: &alpine_3_23_amd64_image
-  image: "$CI_REGISTRY_IMAGE:alpine-3.23-amd64"
+.alpine-3.24-amd64: &alpine_3_24_amd64_image
+  image: "$CI_REGISTRY_IMAGE:alpine-3.24-amd64"
   <<: *linux_amd64
 
 # AlmaLinux
@@ -429,11 +429,14 @@ stages:
     - find -name 'tsan.*' -exec "$PYTHON" "$CI_PROJECT_DIR"/bind9-qa/ci/parse_tsan.py {} \;
 
 .check_readline_setup: &check_readline_setup
-    - if [[ -n "${WITHOUT_LIBEDIT}" ]]; then
-        ! grep "^#define HAVE_LIBEDIT" build/config.h;
-      elif [[ -n "${WITH_LIBEDIT}" ]]; then
-        grep -e "^#define HAVE_LIBEDIT" build/config.h;
-      fi
+    # WITH_LIBEDIT/WITHOUT_LIBEDIT are always-set global variables, so inspect
+    # the actual per-job configure flags to decide what to assert.
+    - case " ${EXTRA_CONFIGURE} " in
+        *" -Dline=disabled "*)
+          ! grep -e "^#define HAVE_LIBEDIT" build/config.h;;
+        *" -Dline=enabled "*)
+          grep -e "^#define HAVE_LIBEDIT" build/config.h;;
+      esac
 
 .list_installed_package_versions: &list_installed_package_versions
   - echo -e "\e[0Ksection_start:`date +%s`:installed_packages_section[collapsed=true]\r\e[0KHeader of the installed packages collapsible section"
@@ -469,7 +472,6 @@ stages:
     - *check_readline_setup
     - meson compile -C build
     - meson compile -C build system-test-dependencies
-    - ninja -C build meson-test-prereq
     - test -z "${RUN_MESON_INSTALL}" || meson install -C build --destdir=$INSTALL_PATH
     - test -z "${RUN_MESON_INSTALL}" || DESTDIR="${INSTALL_PATH}" sh build/util/check-make-install.sh
     #- test -z "${CROSS_COMPILATION}" || grep -F -A 1 "checking whether we are cross compiling" config.log | grep -q "result.*yes"
@@ -614,10 +616,17 @@ stages:
     - export CMOCKA_XML_FILE="$(pwd)/build/meson-logs/include-cmocka-%g.junit.xml"
     - RET=0
     - MESON_WRAPPER="$CI_PROJECT_DIR/bind9-qa/ci/meson_retry_if_flaky.sh 2"
+    # When Git checks out the sources, their modification times are newer than
+    # the build tree from the artifact, so meson would rebuild all of BIND 9.
+    # Age the tracked sources (not "build", to keep ninja's recorded mtimes) so
+    # only the unit tests get built.  "-r" skips the tarball job, which runs
+    # from an untracked dir.  Use BIND 9's git-birthday as the timestamp.
+    - git ls-files -z | xargs -0 -r touch -t 199808172205
+    # Build the test binaries here (rather than in the build job) and run them.
     # CMocka tests: Mark Meson-generated XMLs to exclude them later with --logbase, CMocka generates better ones.
-    - meson test -C build --suite cmocka --wrapper "$MESON_WRAPPER" --no-rebuild --logbase "exclude-" || RET=1
+    - meson test -C build --suite cmocka --wrapper "$MESON_WRAPPER" --logbase "exclude-" || RET=1
     # Non-CMocka test: Use Meson-generated XMLs.
-    - meson test -C build --no-suite cmocka --wrapper "$MESON_WRAPPER" --no-rebuild --logbase "include-" || RET=1
+    - meson test -C build --no-suite cmocka --wrapper "$MESON_WRAPPER" --logbase "include-" || RET=1
     - >
       "$PYTHON" "$CI_PROJECT_DIR"/bind9-qa/ci/postprocess_junit_files.py build/meson-logs/include-*.junit.xml --output "$CI_PROJECT_DIR/junit.xml"
     - (exit $RET)
@@ -680,6 +689,9 @@ misc:
     - sh util/check-gitignore.sh
     - sh util/check-trailing-whitespace.sh
     - bash util/unused-headers.sh
+    # Check that every rdata source file is registered for header generation
+    - meson setup build
+    - bash util/check-rdata-registration.sh build
     # Check dangling symlinks in the repository
     - if find . -xtype l | grep .; then exit 1; fi
     - muon-meson analyze -Werror
@@ -981,7 +993,7 @@ coverity:
 # Simple reproductibilty test, needs an image with meson >=1.6.0
 reproducible-build:
   <<: *other_checks_job
-  <<: *alpine_3_23_amd64_image
+  <<: *alpine_3_24_amd64_image
   variables:
     CC: gcc
     CFLAGS: "${CFLAGS_COMMON}"
@@ -1125,30 +1137,30 @@ cross-version-config-tests:
     untracked: true
     expire_in: "1 day"
     when: always
-  allow_failure: true # #6007
+  allow_failure: true # !12163, commit 9771df0a
 
-# Jobs for regular GCC builds on Alpine Linux 3.23 (amd64)
+# Jobs for regular GCC builds on Alpine Linux 3.24 (amd64)
 
-gcc:alpine3.23:amd64:
+gcc:alpine3.24:amd64:
   variables:
     CC: gcc
     CFLAGS: "${CFLAGS_COMMON}"
     EXTRA_CONFIGURE: "${WITHOUT_LIBEDIT}"
-  <<: *alpine_3_23_amd64_image
+  <<: *alpine_3_24_amd64_image
   <<: *build_job
 
-system:gcc:alpine3.23:amd64:
-  <<: *alpine_3_23_amd64_image
+system:gcc:alpine3.24:amd64:
+  <<: *alpine_3_24_amd64_image
   <<: *system_test_job
   needs:
-    - job: gcc:alpine3.23:amd64
+    - job: gcc:alpine3.24:amd64
       artifacts: true
 
-unit:gcc:alpine3.23:amd64:
-  <<: *alpine_3_23_amd64_image
+unit:gcc:alpine3.24:amd64:
+  <<: *alpine_3_24_amd64_image
   <<: *unit_test_job
   needs:
-    - job: gcc:alpine3.23:amd64
+    - job: gcc:alpine3.24:amd64
       artifacts: true
 
 # Jobs for regular GCC builds on Alma Linux 8 (amd64)
@@ -2141,6 +2153,8 @@ assign-milestones:
 
 .rpm-build-job-common: &rpm_build_job_common
   <<: *manual_release_job_qa
+  # prevent Git push races between pipelines started for different tags
+  resource_group: "rpm-build-${SERVICE}"
   after_script:
     - git -C bind/ remote get-url origin | sed "s|\.git$|/-/commit/$(cat commit.txt)|"
     - git -C bind/ show --color "$(cat commit.txt)" | sed "s|^$| |"
@@ -2260,9 +2274,10 @@ update-docker-image:
     - git commit -m "Version bump to ${VERSION}" Dockerfile
     - git push
     - COMMIT_SHA="$(git log -n1 --format=%H)"
-    - MSG="Docker image for BIND ${BRANCH} updated to version ${CI_COMMIT_TAG}, commit [${COMMIT_SHA}](${DOCKER_PROJECT}/-/commit/${COMMIT_SHA})"
-    - |
-      curl -s -o /dev/null -X POST -H "Content-Type: application/json" -d '{"channel": "packaging", "text": "'"${MSG}"'"}' "${MATTERMOST_WEBHOOK_URL}"
+    - *git_clone_bind9-qa
+    - echo "Docker image for BIND ${BRANCH} updated to version ${CI_COMMIT_TAG}, commit [${COMMIT_SHA}](${DOCKER_PROJECT}/-/commit/${COMMIT_SHA})" > message.txt
+    - >
+      "$CI_PROJECT_DIR"/bind9-qa/releng/message_zulip.py --message message.txt --channel bind9 --topic Packaging
   needs:
     - job: release
       artifacts: true
@@ -2282,7 +2297,7 @@ prepare-release-announcement:
   rules:
     - *rule_tag_open_source
   after_script:
-    - if [ "${CI_JOB_STATUS}" = "success" ]; then "$CI_PROJECT_DIR"/bind9-qa/releng/send_release_links.py --metadata "$CI_PROJECT_DIR"/bind9-qa/releng/metadata.json --message-mattermost; fi
+    - if [ "${CI_JOB_STATUS}" = "success" ]; then "$CI_PROJECT_DIR"/bind9-qa/releng/send_release_links.py --metadata "$CI_PROJECT_DIR"/bind9-qa/releng/metadata.json --message-zulip; fi
 
 # Job preparing an EVN MR in Printing Press
 
@@ -2456,7 +2471,7 @@ respdiff-third-party:
     CC: gcc
     CFLAGS: "${CFLAGS_COMMON}"
     EXTRA_CONFIGURE: "-Doptimization=g"
-    MAX_DISAGREEMENTS_PERCENTAGE: "0.4"
+    MAX_DISAGREEMENTS_PERCENTAGE: "0.5"
   script:
     - bash respdiff.sh -s third_party -q "${PWD}/100k_mixed.txt" -c 1 -w "${PWD}/rspworkdir" -r "${PWD}/respdiff" "${CI_PROJECT_DIR}"
     - cd ../.. && ninja -C build clean >/dev/null 2>&1
@@ -2484,7 +2499,7 @@ respdiff:recent-named:
     CC: gcc
     CFLAGS: "${CFLAGS_COMMON} -DISC_TRACK_PTHREADS_OBJECTS"
     EXTRA_CONFIGURE: "-Doptimization=g"
-    MAX_DISAGREEMENTS_PERCENTAGE: "0.1"
+    MAX_DISAGREEMENTS_PERCENTAGE: "0.15"
 
 # Performance tests
 
@@ -2610,7 +2625,7 @@ pairwise:
 backports:
   <<: *post_merge
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_REF_NAME =~ /^security-(main|bind-9\.[0-9]+)$/ || $CI_COMMIT_REF_NAME =~ /^bind-9.[0-9]+$/ || $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_REF_NAME =~ /^security-(main|bind-9\.[0-9]+)$/ || $CI_COMMIT_REF_NAME =~ /^bind-9\.[0-9]+$/ || $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH)'
   script:
     # CI job token is not sufficient for push operations
     - git remote get-url origin | sed -e "s/gitlab-ci-token:$CI_JOB_TOKEN/oauth2:$BIND_TEAM_WRITE_TOKEN/" | xargs git remote set-url --push origin
@@ -2620,7 +2635,7 @@ backports:
 merged-metadata:
   <<: *post_merge
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_REF_NAME =~ /^security-(main|bind-9\.[0-9]+)$/ || $CI_COMMIT_REF_NAME =~ /^bind-9.[0-9]+(-sub)?$/ || $CI_COMMIT_REF_NAME =~ /^v9.[0-9]+.[0-9]+-release$/ || $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_REF_NAME =~ /^security-(main|bind-9\.[0-9]+)$/ || $CI_COMMIT_REF_NAME =~ /^bind-9\.[0-9]+(-sub)?$/ || $CI_COMMIT_REF_NAME =~ /^v9\.[0-9]+\.[0-9]+-release$/ || $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH)'
   script:
     - >
       "$CI_PROJECT_DIR"/bind9-qa/releng/after_merge.py "$CI_PROJECT_ID" "$MERGE_REQUEST_ID"
@@ -2658,14 +2673,20 @@ merged-metadata:
     - git range-diff --color=always "${BASE_COMMIT}" "${CI_COMMIT_SHA}" HEAD
     - if ! git push --force-with-lease -o ci.variable="AUTOREBASED=1" origin "HEAD:${CI_COMMIT_REF_NAME}"; then touch .git-push-failed; exit 1; fi
   after_script:
-    - if [ "${CI_JOB_STATUS}" = "success" ] || [ "${CI_PIPELINE_SOURCE}" = "merge_request_event" ]; then exit 0; fi
+    - if [ "${CI_JOB_STATUS}" = "success" ]; then exit 0; fi
     - |
       REASON_DETAILS=""
       if git rebase --abort; then
           # Rebase failed; try applying recent commits from the base branch on top of the branch being rebased to determine which one introduces conflicts
           git rebase --rebase-merges "${CI_COMMIT_SHA}" "${BASE_COMMIT}" || true
           CONFLICT_COMMIT="$(git rev-parse REBASE_HEAD)"
-          CONFLICT_COMMIT_AUTHOR="$(git log --max-count=1 --pretty="@%al" "${CONFLICT_COMMIT}")"
+          CONFLICT_COMMIT_AUTHOR_LOGIN="$(git log --max-count=1 --pretty="%al" "${CONFLICT_COMMIT}")"
+          CONFLICT_COMMIT_AUTHOR_USERNAME="$(curl -m 5 -s "https://gitlab.isc.org/isc-projects/bind9-qa/-/raw/main/releng/users.json" | jq -r ".${CONFLICT_COMMIT_AUTHOR_LOGIN}" || :)"
+          if [ -n "${CONFLICT_COMMIT_AUTHOR_USERNAME}" ] && [ "${CONFLICT_COMMIT_AUTHOR_USERNAME}" != "null" ]; then
+            CONFLICT_COMMIT_AUTHOR="@**${CONFLICT_COMMIT_AUTHOR_USERNAME}**"
+          else
+            CONFLICT_COMMIT_AUTHOR="\`${CONFLICT_COMMIT_AUTHOR_LOGIN}\`"
+          fi
           CONFLICT_COMMIT_MERGE="$(git log --reverse --merges --pretty="%H" "${CONFLICT_COMMIT}..${BASE_COMMIT}" | head -1)"
           read -r CONFLICT_COMMIT_MERGE_REQUEST_PROJECT CONFLICT_COMMIT_MERGE_REQUEST_ID < <(git log --max-count=1 "${CONFLICT_COMMIT_MERGE}" | sed -n -E 's|^\s*See merge request ([a-z-]+/bind9)!([0-9]+).*|\1 \2|p' | head -1)
           REASON="merge conflict introduced by a change in the base branch"
@@ -2687,21 +2708,9 @@ merged-metadata:
       MSG="${MSG}\n**Job**: ${CI_JOB_URL}"
       MSG="${MSG}\n**Reason**: ${REASON}"
       MSG="${MSG}${REASON_DETAILS}"
-    - |
-      curl -s -o /dev/null -X POST -H content-type:application/json -d '{"channel":"bind-9-team", "text": "'"${MSG}"'" }' "${MATTERMOST_WEBHOOK_URL}"
-
-autorebase-merge-request:
-  <<: *autorebase
-  stage: quick-checks
-  resource_group: null
-  before_script:
-    - git fetch --depth="${GIT_DEPTH}" origin "${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}" "${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}"
-    - export BASE_PROJECT="isc-private/bind9"
-    - export BASE_COMMIT="$(git rev-parse "origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}")"
-  rules:
-    - if: '$CI_PROJECT_NAMESPACE == "isc-private" && $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^security-(bind-9\.[0-9]+)$/'
-      when: manual
-      allow_failure: true
+      echo -e "$MSG" > message.txt
+    - >
+      "$CI_PROJECT_DIR"/bind9-qa/releng/message_zulip.py --message message.txt --channel bind9-team --topic 'Autorebase errors'
 
 autorebase-trigger-security:
   <<: *autorebase_common

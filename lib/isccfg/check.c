@@ -51,6 +51,7 @@
 #include <dns/keystore.h>
 #include <dns/keyvalues.h>
 #include <dns/peer.h>
+#include <dns/rdata.h>
 #include <dns/rdataclass.h>
 #include <dns/rdatatype.h>
 #include <dns/rpz.h>
@@ -1179,6 +1180,34 @@ check_port(const cfg_obj_t *options, const char *type, in_port_t *portp) {
 }
 
 static isc_result_t
+check_delegation_ttl(const cfg_obj_t *options) {
+	uint32_t min = 0, max = 0;
+	const cfg_obj_t *obj = NULL;
+
+	(void)cfg_map_get(options, "min-delegation-ttl", &obj);
+	if (obj != NULL) {
+		min = cfg_obj_asduration(obj);
+	}
+
+	obj = NULL;
+	(void)cfg_map_get(options, "max-delegation-ttl", &obj);
+	if (obj != NULL) {
+		max = cfg_obj_asduration(obj);
+	}
+
+	if (min != 0 && max != 0 && min >= max) {
+		cfg_obj_log(
+			obj, ISC_LOG_ERROR,
+			"When 'min-delegation-ttl' and 'max-delegation-ttl' "
+			"are both positive, 'min-delegation-ttl' must be "
+			"strictly less than 'max-delegation-ttl'");
+		return ISC_R_RANGE;
+	}
+
+	return ISC_R_SUCCESS;
+}
+
+static isc_result_t
 check_options(const cfg_obj_t *options, const cfg_obj_t *config,
 	      bool check_algorithms, isc_mem_t *mctx, optlevel_t optlevel) {
 	isc_result_t result = ISC_R_SUCCESS;
@@ -1281,6 +1310,11 @@ check_options(const cfg_obj_t *options, const cfg_obj_t *config,
 					break;
 				}
 			}
+		}
+
+		tresult = check_delegation_ttl(options);
+		if (tresult != ISC_R_SUCCESS) {
+			result = tresult;
 		}
 	}
 
@@ -4879,7 +4913,7 @@ check_trust_anchor(const cfg_obj_t *key, unsigned int *flagsp) {
 	isc_result_t result = ISC_R_SUCCESS;
 	isc_result_t tresult;
 	uint32_t rdata1, rdata2, rdata3;
-	unsigned char data[4096];
+	unsigned char data[DNS_RDATA_MAXLENGTH];
 	const char *atstr = NULL;
 	enum {
 		INIT_DNSKEY,
@@ -6303,6 +6337,18 @@ isccfg_check_namedconf(const cfg_obj_t *config, unsigned int flags,
 			}
 		}
 		symtype = vclass + 1;
+		/*
+		 * Only the Internet (IN) class is allowed for user-defined
+		 * views.  The builtin "_bind" view (Chaos) is generated
+		 * internally and never appears in the configuration here.
+		 */
+		if (tresult == ISC_R_SUCCESS && vclass != dns_rdataclass_in) {
+			cfg_obj_log(view, ISC_LOG_ERROR,
+				    "view '%s': only Internet (IN) class is "
+				    "allowed",
+				    key);
+			tresult = ISC_R_FAILURE;
+		}
 		if (tresult == ISC_R_SUCCESS && symtab != NULL) {
 			symvalue.as_cpointer = view;
 			tresult = isc_symtab_define(symtab, key, symtype,
