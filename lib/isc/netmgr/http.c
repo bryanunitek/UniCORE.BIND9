@@ -2097,8 +2097,15 @@ isc__nm_http_request(isc_nmhandle_t *handle, isc_region_t *region,
 	return ISC_R_SUCCESS;
 
 error:
+	/*
+	 * client_send() detaches and frees the stream on a submit failure
+	 * (it nullifies sock->h2->connect.cstream before submitting, then
+	 * frees it on the failure branch), so the reloaded pointer can be
+	 * NULL here.  The caller still gets the error result and reports the
+	 * failure itself.
+	 */
 	cstream = sock->h2->connect.cstream;
-	if (cstream->read_cb != NULL) {
+	if (cstream != NULL && cstream->read_cb != NULL) {
 		cstream->read_cb(handle, result, NULL, cstream->read_cbarg);
 	}
 	return result;
@@ -2170,8 +2177,9 @@ server_handle_path_header(isc_nmsocket_t *socket, const uint8_t *value,
 	if (socket->h2->request_path != NULL) {
 		isc_mem_free(socket->worker->mctx, socket->h2->request_path);
 	}
-	socket->h2->request_path = isc_mem_strndup(
-		socket->worker->mctx, (const char *)value, vlen + 1);
+	socket->h2->request_path = isc_mem_allocate(socket->worker->mctx,
+						    vlen + 1);
+	strlcpy(socket->h2->request_path, (const char *)value, vlen + 1);
 
 	if (!isc_nm_http_path_isvalid(socket->h2->request_path)) {
 		isc_mem_free(socket->worker->mctx, socket->h2->request_path);

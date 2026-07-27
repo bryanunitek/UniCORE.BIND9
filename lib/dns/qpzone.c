@@ -1175,7 +1175,7 @@ bindrdataset(qpzonedb_t *qpdb, dns_vecheader_t *header,
 	rdataset->type = DNS_TYPEPAIR_TYPE(header->typepair);
 	rdataset->covers = DNS_TYPEPAIR_COVERS(header->typepair);
 	rdataset->ttl = header->ttl;
-	rdataset->trust = atomic_load(&header->trust);
+	rdataset->trust = atomic_load_acquire(&header->trust);
 
 	if (OPTOUT(header)) {
 		rdataset->attributes.optout = true;
@@ -2261,7 +2261,7 @@ loading_addrdataset(void *arg, const dns_name_t *name, dns_rdataset_t *rdataset,
 	dns_vecheader_t *newheader = (dns_vecheader_t *)region.base;
 	newheader->ttl = rdataset->ttl;
 	newheader->serial = 1;
-	atomic_store(&newheader->trust, rdataset->trust);
+	atomic_store_release(&newheader->trust, rdataset->trust);
 
 	dns_vecheader_setownercase(newheader, name);
 
@@ -2534,7 +2534,6 @@ getsigningtime(dns_db_t *db, isc_stdtime_t *resign, dns_name_t *foundname,
 		UNLOCK(&qpdb->heap->lock);
 		return ISC_R_NOTFOUND;
 	}
-	header = elem->header;
 	nlock = qpzone_get_lock(elem->node);
 	UNLOCK(&qpdb->heap->lock);
 
@@ -4036,7 +4035,7 @@ qpzone_detachnode(dns_dbnode_t **nodep DNS__DB_FLARG) {
 
 static unsigned int
 nodecount(dns_db_t *db) {
-	qpzonedb_t *qpdb = qpdb = (qpzonedb_t *)db;
+	qpzonedb_t *qpdb = (qpzonedb_t *)db;
 	dns_qp_memusage_t mu;
 
 	REQUIRE(VALID_QPZONE(qpdb));
